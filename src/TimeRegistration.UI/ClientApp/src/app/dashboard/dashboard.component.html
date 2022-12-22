@@ -1,0 +1,23 @@
+<h2>Time entries dashboard</h2>
+
+<h3>Current Time Entries</h3>
+<div *ngIf="selectedTimeEntry">
+    <h2>{{selectedTimeEntry.title | uppercase}} Details</h2>
+    <div>Id: {{selectedTimeEntry.id}}</div>
+    <div>Description: {{selectedTimeEntry.description}}</div>
+    <div>Date: {{selectedTimeEntry.startTime | date:'dd-MM-yyyy HH:mm:ss'}}</div>
+    <div>
+      <label for="entry-title">Entry title: </label>
+      <input id="entry-title" [(ngModel)]="selectedTimeEntry.title" placeholder="Title">
+    </div>
+  </div>
+<ol class ="timeEntries">
+    <li *ngFor="let timeEntry of timeEntries">
+        <button type="button" (click)="onSelect(timeEntry)">
+            <span class="TITLE">{{timeEntry.title}}</span>
+        </button>
+    </li>
+</ol>
+
+<button (click)="getPreviousPage()" [disabled]="currentPage == 1">Get previous page</button>
+<button (click)="getNextPage()" [disabled]="!canGetNextPage()">Get next page</button>

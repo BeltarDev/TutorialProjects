@@ -1,7 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using TimeRegistration.UI.TimeRegistration;
-
-namespace TimeRegistration.UI
+namespace Project1
 {
     public class Program
     {
@@ -9,13 +6,9 @@ namespace TimeRegistration.UI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // configure custom / User feature
-            builder.ConfigureTimeRegistrationFeature();
-
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
 
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
@@ -25,22 +18,15 @@ namespace TimeRegistration.UI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            else
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI(x =>
-                {
-                    x.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                });
-            }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
 
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "api/{controller}/{action=Index}/{id?}");
+                pattern: "{controller}/{action=Index}/{id?}");
 
             app.MapFallbackToFile("index.html");
 

@@ -1,4 +1,4 @@
-namespace TimeRegistration.UI
+namespace Project1
 {
     public class WeatherForecast
     {
