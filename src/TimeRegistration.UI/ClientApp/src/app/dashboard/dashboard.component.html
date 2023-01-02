@@ -19,5 +19,5 @@
     </li>
 </ol>
 
-<button (click)="getPreviousPage()" [disabled]="currentPage == 1">Get previous page</button>
+<button (click)="getPreviousPage()" [disabled]="pageNumber == 1">Get previous page</button>
 <button (click)="getNextPage()" [disabled]="!canGetNextPage()">Get next page</button>

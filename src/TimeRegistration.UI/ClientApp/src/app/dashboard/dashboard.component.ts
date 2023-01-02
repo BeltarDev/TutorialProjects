@@ -61,7 +61,7 @@ export class DashboardComponent {
 
 
   onSelect(timeEntry: TimeEntry): void {
-    console.log('New selected ding: ', timeEntry)
+    console.log('New selected TimeEntry: ', timeEntry)
     this.selectedTimeEntry = timeEntry;
   }
 }
