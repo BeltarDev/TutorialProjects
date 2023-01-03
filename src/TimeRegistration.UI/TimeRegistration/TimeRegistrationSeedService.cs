@@ -15,7 +15,7 @@ public class TimeRegistrationSeedService : IHostedService
 
         var dbContext = scope.ServiceProvider.GetRequiredService<TimeRegistrationDbContext>();
 
-        var entries = Enumerable.Range(1, 500)
+        var entries = Enumerable.Range(1, 100)
             .Select(x => new TimeEntry
             {
                 Id = x,

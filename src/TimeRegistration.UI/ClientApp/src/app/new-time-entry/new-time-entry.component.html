@@ -21,12 +21,17 @@ Time Entry has the following components:
 
     <div class="mb-3">
       <label class="form-label">Title: </label>
-      <input class="form-control" type="text" required [(ngModel)]="model.title" name="title" />
+      <input class="form-control" type="text" required [(ngModel)]="model.title" name="title" placeholder="Put title here." />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Description:</label>
+      <input class="form-control" [(ngModel)]="model.description" name="description" required placeholder="Description of the work." />
     </div>
 
     <div class="mb-3">
       <label class="form-label">Datum: </label>
-      <input class="form-control" type="datetime" name="startDate" [valueAsDate]="model.startDate"/>
+      <input class="form-control" type="date" name="startDate" [(ngModel)]="model.startDate" />
     </div>
 
     <div class="mb-3">
@@ -38,6 +43,7 @@ Time Entry has the following components:
       <label class="form-label">Start tijd minuten: </label>
       <input class="form-control" type="number" min="0" max="59" name="startTimeMinutes" [(ngModel)]="model.startTimeMinutes" />
     </div>
+
 
     <!--<div class="form-check">
     <input class="form-check-input" type="radio" name="currentTimeOption" value="CurrentTime" [(ngModel)]="model.option" />
@@ -58,10 +64,7 @@ Time Entry has the following components:
     <input class="form-check-input" type="radio" name="customTimeDateOption" value="Custom" [(ngModel)]="model.option" />
     <label class="form-check-label">Custom Time Date</label>
   </div>-->
-    <!--<label for="description">Description:</label>
-  <input type="text" id="description" name="description" required />
-
-  <input type="radio" id="Current Time" name="timeEntryOption" value="Current Time" checked="checked" />
+    <!--<input type="radio" id="Current Time" name="timeEntryOption" value="Current Time" checked="checked" />
   <label for="Current Time">Current Time</label>
   <input type="radio" id="Today Start Time Standard" name="timeEntryOption" value="Today Start Time Standard"/>
   <label for="Today Start Time Standard">Today Start Time Standard</label>
@@ -70,10 +73,10 @@ Time Entry has the following components:
   <input type="radio" id="Custom TimeDate" name="timeEntryOption" value="Custom TimeDate"/>
   <label for="Custom TimeDate">Custom TimeDate</label>-->
 
-    <button class="btn btn-primary" (click)="useCurrentTime()">Use current time</button>
-    <button class="btn btn-primary" (click)="useStartTime()">Use default start time</button>
-    <button class="btn btn-primary" (click)="useStopTime()">Use default stop time</button>
-    <button class="btn btn-primary" (click)="submit()">Submit</button>
+    <button class="btn btn-primary" (click)="useCurrentTime()">Current Time</button>
+    <button class="btn btn-primary" (click)="useStartTime()">Default Start Time</button>
+    <button class="btn btn-primary" (click)="useStopTime()">Default Stop Time</button>
+    <button class="btn btn-secondary" (click)="submit()">Submit</button>
 
   </fieldset>
 </form>

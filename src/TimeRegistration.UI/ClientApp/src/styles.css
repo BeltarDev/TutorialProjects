@@ -14,6 +14,16 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+.btn-secondary {
+  color: black;
+  background-color: green;
+  border-block-color: #2e8b57;
+}
+
+.timeEntryBox {
+  border: 5px solid #a0522d;
+  background-color: gold;
+}
 
 h1 {
   padding-left:10%;

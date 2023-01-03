@@ -12,7 +12,8 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NewTimeEntryComponent } from './new-time-entry/new-time-entry.component';
 import { CommonModule } from '@angular/common';
-import { MomentModule} from 'ngx-moment';
+import { MomentModule } from 'ngx-moment';
+
 
 @NgModule({
   declarations: [

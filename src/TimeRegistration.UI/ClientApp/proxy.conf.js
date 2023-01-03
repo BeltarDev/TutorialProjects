@@ -10,6 +10,7 @@ const PROXY_CONFIG = [
    ],
     target: target,
     secure: false,
+    logLevel: 'debug',
     headers: {
       Connection: 'Keep-Alive'
     }

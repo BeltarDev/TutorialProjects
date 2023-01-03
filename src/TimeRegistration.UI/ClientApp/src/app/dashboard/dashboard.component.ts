@@ -9,7 +9,7 @@ import { TimeEntry } from '../ITimeEntry';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  pageSize = 100;
+  pageSize = 25;
   pageNumber = 1;
   
   selectedTimeEntry?: TimeEntry;
@@ -17,6 +17,7 @@ export class DashboardComponent {
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
     this.getData();
+    this.deleteEntry();
   }
 
   getData(){
@@ -26,7 +27,19 @@ export class DashboardComponent {
         console.log("Received: ", result);
       }, error => console.error(error));
   }
+
+   deleteEntry() {
+    if (this.selectedTimeEntry != undefined) {
+      this.http.delete(this.baseUrl + `api/Time?id=${this.selectedTimeEntry.id}`)
+        .subscribe(result => console.log("Deleted: ", result),
+          err => console.error(err));
+      this.selectedTimeEntry = undefined;
+      this.getData();
+    }
+    return;
+  }
   
+
   getPreviousPage(){
       
     if (this.pageNumber <= 1 ){
@@ -49,11 +62,9 @@ export class DashboardComponent {
     // caculate current page
     // decide if can get next page
     // actually get next page
-
     if (this.timeEntries.length < this.pageSize ){
       return;
     }
-
     this.pageNumber ++;
     this.getData()
     

@@ -20,9 +20,7 @@ public class TimeController : ControllerBase
     {
         var dbModel = new TimeEntry
         {
-            Title = model.Title,
-            Description = model.Description,
-            StartTime = model.StartTime
+            Title = model.Title, Description = model.Description, StartTime = model.StartTime
         };
 
         await _dbContext.AddAsync(dbModel);
@@ -67,5 +65,28 @@ public class TimeController : ControllerBase
     {
         var entry = await _dbContext.TimeEntries.FindAsync(id);
         return entry == null ? NotFound() : Ok(TimeEntryDto.Create(entry));
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteById([FromQuery] int id)
+    {
+        try
+        {
+            var entry = await _dbContext.TimeEntries.FindAsync(id);
+            if (entry == null)
+            {
+                return NotFound($"TimeEntry with Id = {id} not found");
+            }
+
+            _dbContext.TimeEntries.Remove(entry);
+            await _dbContext.SaveChangesAsync();
+            return Ok();
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                "Error deleting data");
+        }
+        
     }
 }

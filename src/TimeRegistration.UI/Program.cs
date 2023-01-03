@@ -42,6 +42,7 @@ namespace TimeRegistration.UI
                 name: "default",
                 pattern: "api/{controller}/{action=Index}/{id?}");
 
+
             app.MapFallbackToFile("index.html");
 
             app.Run();
