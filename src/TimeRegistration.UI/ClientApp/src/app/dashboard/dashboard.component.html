@@ -1,24 +1,62 @@
 <h2>Time entries dashboard</h2>
 
-<div class="timeEntryBox" *ngIf="selectedTimeEntry" >
-    
-    <div>Id: {{selectedTimeEntry.id}}</div>
-    <div>Description: {{selectedTimeEntry.description}}</div>
-    <div>Date: {{selectedTimeEntry.startTime | date:'dd-MM-yyyy HH:mm:ss'}}</div>
-    <div>
-      <label for="entry-title">Entry title: {{selectedTimeEntry.title}}</label>
-      
-      <button style="align-items: center;" class="btn btn-danger"
-              (click)="deleteEntry()">Delete Entry</button>
-      </div>
-  </div>
-<ul class ="timeEntries">
-    <li *ngFor="let timeEntry of timeEntries">
-        <button type="button" (click)="onSelect(timeEntry)">
-            <span class="TITLE" name="currentEntry">{{timeEntry.title}}</span>
-        </button>
-    </li>
-</ul>
+<!--<div class="timeEntryBox" *ngIf="selectedTimeEntry">
 
-<button (click)="getPreviousPage()" [disabled]="pageNumber == 1">Get previous page</button>
+  <div>Id: {{selectedTimeEntry.id}}</div>
+  <div>Description: {{selectedTimeEntry.description}}</div>
+  <div>Date: {{selectedTimeEntry.startTime | date:'dd-MM-yyyy HH:mm:ss'}}</div>
+  <div>
+    <label for="entry-title">Entry title: {{selectedTimeEntry.title}}</label>
+
+    <button style="align-items: center;" class="btn btn-danger"
+            (click)="deleteEntry()">
+      Delete Entry
+    </button>
+  </div>
+</div>-->
+<!--<ul class="timeEntries">
+  <li *ngFor="let timeEntry of timeEntries">
+    <button type="button" (click)="onSelect(timeEntry)">
+      <span class="TITLE" name="currentEntry">{{timeEntry.title}}</span>
+    </button>
+  </li>
+</ul>-->
+
+<!--<button (click)="getPreviousPage()" [disabled]="pageNumber == 1">Get previous page</button>
 <button (click)="getNextPage()" [disabled]="!canGetNextPage()">Get next page</button>
+<button (click)="refresh(pagination)">Refresh</button>-->
+
+<clr-datagrid  (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading">
+  <clr-dg-column [clrDgField]="'id'">Id</clr-dg-column>
+  <clr-dg-column [clrDgField]="'description'">Description</clr-dg-column>
+  <clr-dg-column [clrDgField]="'startTime'">Time</clr-dg-column>
+  <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
+
+  <clr-dg-row *ngFor="let timeEntry of timeEntries" [clrDgItem]="timeEntry">
+    <clr-dg-cell>{{timeEntry.id}}</clr-dg-cell>
+    <clr-dg-cell>{{timeEntry.description}}</clr-dg-cell>
+    <clr-dg-cell>{{timeEntry.startTime | amLocal | amDateFormat:'DD-MM-YYYY hh:mm'}}</clr-dg-cell>
+    <clr-dg-cell>{{timeEntry.title}}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-detail *clrIfDetail="let detail">
+    <clr-dg-detail-header>{{detail.title}}</clr-dg-detail-header>
+    <clr-dg-detail-body>
+      <pre>{{detail.title}}</pre>
+      <pre>{{detail.description}}</pre>
+      <pre>{{detail.startTime}}</pre>
+      <button class="btn btn-danger" (click)="deleteEntry(detail)">Delete</button>
+    </clr-dg-detail-body>
+  </clr-dg-detail>
+
+  <clr-dg-footer><clr-dg-pagination #pagination [clrDgPageSize]="pageSize" [clrDgTotalItems]="totalCount">
+  <clr-dg-page-size #clrDgPageSize [clrPageSizeOptions]="[10,25,50,100]">
+    <label [for]="clrDgPageSize.pageSizeOptionsId">Time Entries per page</label>
+
+  </clr-dg-page-size>
+  {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+  of {{pagination.totalItems}} Time Entries
+</clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+<div> {{pageSize}}</div>

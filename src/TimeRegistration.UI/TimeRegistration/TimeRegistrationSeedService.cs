@@ -21,7 +21,7 @@ public class TimeRegistrationSeedService : IHostedService
                 Id = x,
                 Title = $"Title {x}",
                 Description = $"Description {x}",
-                StartTime = DateTime.UtcNow
+                StartTime = DateTime.UtcNow.AddHours(x)
             }).ToArray();
 
         await dbContext.TimeEntries.AddRangeAsync(entries);

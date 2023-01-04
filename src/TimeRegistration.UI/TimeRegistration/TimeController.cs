@@ -34,6 +34,9 @@ public class TimeController : ControllerBase
     public async Task<IActionResult> Get(int pageSize, int pageNumber, string? orderBy)
     {
         var query = _dbContext.TimeEntries.AsQueryable();
+
+        var totalCount = await query.LongCountAsync();
+
         if (orderBy?.Equals(nameof(TimeEntry.Title), StringComparison.OrdinalIgnoreCase) ?? false)
         {
             query = query.OrderBy(x => x.Title);
@@ -42,9 +45,29 @@ public class TimeController : ControllerBase
         {
             query = query.OrderByDescending(x => x.Title);
         }
+        else if (orderBy?.Equals($"{nameof(TimeEntry.StartTime)}_desc", StringComparison.OrdinalIgnoreCase) ?? false)
+        {
+            query = query.OrderByDescending(x => x.StartTime);
+        }
+        else if (orderBy?.Equals($"{nameof(TimeEntry.StartTime)}", StringComparison.OrdinalIgnoreCase) ?? false)
+        {
+            query = query.OrderBy(x => x.StartTime);
+        }
         else if (orderBy?.Equals(nameof(TimeEntry.Description), StringComparison.OrdinalIgnoreCase) ?? false)
         {
             query = query.OrderBy(x => x.Description);
+        }
+        else if (orderBy?.Equals($"{nameof(TimeEntry.Description)}_desc", StringComparison.OrdinalIgnoreCase) ?? false)
+        {
+            query = query.OrderByDescending(x => x.Description);
+        }
+        else if (orderBy?.Equals(nameof(TimeEntry.Id), StringComparison.OrdinalIgnoreCase) ?? false)
+        {
+            query = query.OrderBy(x => x.Id);
+        }
+        else if (orderBy?.Equals($"{nameof(TimeEntry.Id)}_desc", StringComparison.OrdinalIgnoreCase) ?? false)
+        {
+            query = query.OrderByDescending(x => x.Id);
         }
         else
         {
@@ -57,7 +80,14 @@ public class TimeController : ControllerBase
 
         var results = await query.Select(x => TimeEntryDto.Create(x)).ToListAsync();
 
-        return Ok(results);
+        await Task.Delay(1500);
+
+        return Ok( new
+            {
+                TotalCount = totalCount,
+                Records = results
+            }
+            );
     }
 
     [HttpGet("{id}")]

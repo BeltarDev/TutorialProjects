@@ -11,34 +11,40 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NewTimeEntryComponent } from './new-time-entry/new-time-entry.component';
+
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ClarityModule } from "@clr/angular";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
     DashboardComponent,
-    NewTimeEntryComponent
+    NewTimeEntryComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    //CommonModule,
+    BrowserAnimationsModule,
+    ClarityModule,
+    CommonModule,
     HttpClientModule,
     FormsModule,
     MomentModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'home', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dashboard', component: DashboardComponent},
-      { path: 'new-time-entry', component: NewTimeEntryComponent},
-    ])
+      { path: 'new-time-entry', component: NewTimeEntryComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+
+      ])
   ],
   providers: [],
   bootstrap: [AppComponent]
