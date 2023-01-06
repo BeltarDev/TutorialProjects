@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace TimeRegistration.UI.TimeRegistration;
+namespace TimeRegistration.BusinessLogic.TimeRegistration;
 
 public class TimeEntry
 {

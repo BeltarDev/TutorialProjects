@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TimeRegistration.UI.TimeRegistration;
+namespace TimeRegistration.UI.API;
 
-public class CreateModel
+public class CreateModelDto
 {
     [Required]
     public DateTime StartTime { get; set; }

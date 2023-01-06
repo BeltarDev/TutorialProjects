@@ -1,4 +1,6 @@
-﻿namespace TimeRegistration.UI.TimeRegistration;
+﻿using TimeRegistration.BusinessLogic.TimeRegistration;
+
+namespace TimeRegistration.UI.API;
 
 public class TimeEntryDto
 {

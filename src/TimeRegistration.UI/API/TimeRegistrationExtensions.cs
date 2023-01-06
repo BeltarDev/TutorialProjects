@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TimeRegistration.BusinessLogic.TimeRegistration;
 
 namespace TimeRegistration.UI.TimeRegistration
 {
@@ -10,6 +11,8 @@ namespace TimeRegistration.UI.TimeRegistration
             {
                 x.UseInMemoryDatabase("TimeReg");
             });
+
+            builder.Services.AddScoped<TimeRegistrationService>();
 
             if (builder.Environment.IsDevelopment())
             {
