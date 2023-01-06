@@ -2,83 +2,53 @@
 <body>
 Time Entry has the following components:
   <ul>
-    <li>id: number. This number will be automatically added. </li>
-    <li>title. It's the name of the item.</li>
-    <li>description. Description of the item, referring to the work done and for whom.</li>
-    <li>startTime. Choose from dropdown menu the following Items:
+    <li>Id. Automatically assigned </li>
+    <li>Title. Item Title.</li>
+    <li>Description. Item Description.</li>
+    <li>StartTime. Combined Date and Time Element.<br/>
+      The following standard times can also be selected:
       <ul>
         <li>Current Time: Current local time.</li>
         <li>Today Start Time Standard: Date of today @ 08:30am.</li>
         <li>Today Stop Time Standard : Date of today @ 17:00pm.</li>
         <li>Custom TimeDate: Custom Date & Time.</li>
       </ul></li>
-  </ul><br>
-<form #addForm="ngForm">
-  <fieldset>
-    <legend>Time Entry:</legend>
+  </ul>
 
-    <input type="hidden" name="id" />
+<form clrForm id="TimeEntryForm" #timeEntryForm="ngForm">
+      <legend>Time Entry:</legend>
 
-    <div class="mb-3">
-      <label class="form-label">Title: </label>
-      <input class="form-control" type="text" required [(ngModel)]="model.title" name="title" placeholder="Put title here." />
-    </div>
+    <clr-input-container>
+      <label>Title: </label>
+      <input clrInput type="text" required [(ngModel)]="model.title" name="title" placeholder="Put title here." />
+    </clr-input-container>
 
-    <div class="mb-3">
-      <label class="form-label">Description:</label>
-      <input class="form-control" [(ngModel)]="model.description" name="description" required placeholder="Description of the work." />
-    </div>
+    <clr-input-container>
+      <label>Description:</label>
+      <input clrInput [(ngModel)]="model.description" name="description" required placeholder="Description of the work." />
+    </clr-input-container>
 
-    <div class="mb-3">
-      <label class="form-label">Datum: </label>
-      <input class="form-control" type="date" name="startDate" [(ngModel)]="model.startDate" />
-    </div>
+    <clr-date-container>  
+      <label>Datum: </label>
+      <input clrDate type="date" name="startDate" [(ngModel)]="model.startDate" />
+    </clr-date-container>
 
-    <div class="mb-3">
-      <label class="form-label">Start tijd uren: </label>
-      <input class="form-control" type="number" min="0" max="23" name="startTimeHours" [(ngModel)]="model.startTimeHours" />
-    </div>
+    <clr-input-container>  
+      <label>Start tijd uren: </label>
+      <input clrInput type="number" min="0" max="23" name="startTimeHours" [(ngModel)]="model.startTimeHours" />
+    </clr-input-container>
 
-    <div class="mb-3">
-      <label class="form-label">Start tijd minuten: </label>
-      <input class="form-control" type="number" min="0" max="59" name="startTimeMinutes" [(ngModel)]="model.startTimeMinutes" />
-    </div>
+    <clr-input-container>
+      <label>Start tijd minuten: </label>
+      <input clrInput type="number" min="0" max="59" name="startTimeMinutes" [(ngModel)]="model.startTimeMinutes" />
+    </clr-input-container>
+    <br>
 
+    <button class="btn btn-primary btn-sm" (click)="useCurrentTime()">Current Time</button>
+    <button class="btn btn-primary btn-sm" (click)="useStartTime()">Default Start Time</button>
+    <button class="btn btn-primary btn-sm" (click)="useStopTime()">Default Stop Time</button>
+    <button class="btn btn-secondary btn-sm" (click)="submit()" [disabled]="timeEntryForm.invalid">Submit</button>
 
-    <!--<div class="form-check">
-    <input class="form-check-input" type="radio" name="currentTimeOption" value="CurrentTime" [(ngModel)]="model.option" />
-    <label class="form-check-label">Current Time</label>
-  </div>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" name="defaultStartOption" value="DefaultStart" [(ngModel)]="model.option" />
-    <label class="form-check-label">Default Start</label>
-  </div>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" name="defaultStopOption" value="DefaultStop" [(ngModel)]="model.option" />
-    <label class="form-check-label">Default Stop</label>
-  </div>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" name="customTimeDateOption" value="Custom" [(ngModel)]="model.option" />
-    <label class="form-check-label">Custom Time Date</label>
-  </div>-->
-    <!--<input type="radio" id="Current Time" name="timeEntryOption" value="Current Time" checked="checked" />
-  <label for="Current Time">Current Time</label>
-  <input type="radio" id="Today Start Time Standard" name="timeEntryOption" value="Today Start Time Standard"/>
-  <label for="Today Start Time Standard">Today Start Time Standard</label>
-  <input type="radio" id="Today Stop Time Standard" name="timeEntryOption" value="Today Stop Time Standard"/>
-  <label for="Today Stop Time Standard">Today Stop Time Standard</label>
-  <input type="radio" id="Custom TimeDate" name="timeEntryOption" value="Custom TimeDate"/>
-  <label for="Custom TimeDate">Custom TimeDate</label>-->
-
-    <button class="btn btn-primary" (click)="useCurrentTime()">Current Time</button>
-    <button class="btn btn-primary" (click)="useStartTime()">Default Start Time</button>
-    <button class="btn btn-primary" (click)="useStopTime()">Default Stop Time</button>
-    <button class="btn btn-secondary" (click)="submit()">Submit</button>
-
-  </fieldset>
 </form>
 
 </body>

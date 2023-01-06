@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { TimeEntry } from '../ITimeEntry';
-import { ClrDatagridStateInterface } from "@clr/angular";
+import { ClrDatagridStateInterface, ClrLoadingState } from "@clr/angular";
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -9,6 +9,7 @@ import { tap } from 'rxjs/operators';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
 export class DashboardComponent {
   totalCount: number = 0;
   pageSize = 50;
@@ -18,7 +19,10 @@ export class DashboardComponent {
 
   selectedTimeEntry?: TimeEntry;
   timeEntries: TimeEntry[] = [];
-
+  openModal = false;
+  openNewModal = false;
+  deleteBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
+  gridState: ClrDatagridStateInterface<any> | undefined;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
     this.getData();
@@ -37,29 +41,57 @@ export class DashboardComponent {
     this.totalCount = result.totalCount;
     console.log("Received: ", result);
   }
+  
+  async timeEntrySubmitted(timeEntry : TimeEntry) {
+    
+    this.openNewModal = false;
+    await this.refresh(this.gridState);
+  }
+  
+  openNewTimeEntryModal() {
+    this.openNewModal = true;
+  }
+
+  closeDeleteModal() {
+    this.selectedTimeEntry = undefined;
+    this.openModal = false;
+  }
+
+  openDeleteModal(timeEntry: TimeEntry) {
+    this.selectedTimeEntry = timeEntry;
+    this.openModal = true;
+  }
+
+  async deleteSelectedTimeEntry() {
+    this.openModal = false;
+    this.deleteBtnState = ClrLoadingState.LOADING;
+    await this.deleteEntry(this.selectedTimeEntry!);
+    this.deleteBtnState = ClrLoadingState.DEFAULT;
+    this.selectedTimeEntry = undefined;
+  }
 
   async deleteEntry(timeEntry: TimeEntry) {
-
     await this.http.delete(this.baseUrl + `api/Time?id=${timeEntry.id}`)
       .toPromise();
     await this.getData();
   }
 
-  async refresh(state: ClrDatagridStateInterface) {
+  async refresh(state?: ClrDatagridStateInterface ) {
     console.log(state);
     try {
       this.loading = true;
 
-      this.pageSize = state.page?.size ?? 50;
-      this.pageNumber = state.page?.current ?? 1;
+      this.pageSize = state?.page?.size ?? 50;
+      this.pageNumber = state?.page?.current ?? 1;
+      this.gridState = state;
 
       let sort = undefined;
 
-      if (state.sort) {
-        // state has sort info
+      if (state?.sort) {
+        // state? has sort info
         // what to do?
-        const fieldName = state.sort.by.toString(); // 'id' / 'title' / 'description'
-        const isReversed = state.sort.reverse; // true / false
+        const fieldName = state?.sort.by.toString(); // 'id' / 'title' / 'description'
+        const isReversed = state?.sort.reverse; // true / false
 
         if (isReversed === true) {
           sort = fieldName + '_desc';
@@ -67,9 +99,7 @@ export class DashboardComponent {
         else {
           sort = fieldName;
         }
-
       }
-
       await this.getData(sort);
     } catch (error) {
       console.log('Error: ', error);
@@ -89,29 +119,4 @@ export class DashboardComponent {
     this.getData();
   }
 
-  //canGetNextPage(){
-  //  if (this.timeEntries.length < this.pageSize ){
-  //    return false;
-  //  }
-
-  //  return true;
-  //}
-
-  //getNextPage(){
-  //  // caculate current page
-  //  // decide if can get next page
-  //  // actually get next page
-  //  if (this.timeEntries.length < this.pageSize ){
-  //    return;
-  //  }
-  //  this.pageNumber ++;
-  //  this.getData()
-
-  //}
-
-
-  onSelect(timeEntry: TimeEntry): void {
-    console.log('New selected TimeEntry: ', timeEntry);
-    this.selectedTimeEntry = timeEntry;
-  }
 }

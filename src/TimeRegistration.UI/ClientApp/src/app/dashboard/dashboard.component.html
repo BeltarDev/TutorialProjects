@@ -1,62 +1,68 @@
 <h2>Time entries dashboard</h2>
 
-<!--<div class="timeEntryBox" *ngIf="selectedTimeEntry">
+<div class="btn-group">
+  <button type="button" class="btn btn-sm btn-secondary" (click)="openNewTimeEntryModal()"> New Time Entry
+    
+  </button>
+</div>
 
-  <div>Id: {{selectedTimeEntry.id}}</div>
-  <div>Description: {{selectedTimeEntry.description}}</div>
-  <div>Date: {{selectedTimeEntry.startTime | date:'dd-MM-yyyy HH:mm:ss'}}</div>
-  <div>
-    <label for="entry-title">Entry title: {{selectedTimeEntry.title}}</label>
+  <clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading">
+    <clr-dg-column [clrDgField]="'id'">Id</clr-dg-column>
+    <clr-dg-column [clrDgField]="'description'">Description</clr-dg-column>
+    <clr-dg-column [clrDgField]="'startTime'">Time</clr-dg-column>
+    <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
 
-    <button style="align-items: center;" class="btn btn-danger"
-            (click)="deleteEntry()">
-      Delete Entry
-    </button>
+    <clr-dg-row *ngFor="let timeEntry of timeEntries" [clrDgItem]="timeEntry">
+      <clr-dg-cell>{{timeEntry.id}}</clr-dg-cell>
+      <clr-dg-cell>{{timeEntry.description}}</clr-dg-cell>
+      <clr-dg-cell>{{timeEntry.startTime | amLocal | amDateFormat:'DD-MM-YYYY hh:mm'}}</clr-dg-cell>
+      <clr-dg-cell>{{timeEntry.title}}</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-detail *clrIfDetail="let detail">
+      <clr-dg-detail-header>{{detail.title}}</clr-dg-detail-header>
+      <clr-dg-detail-body>
+        <pre>{{detail.title}}</pre>
+        <pre>{{detail.description}}</pre>
+        <pre>{{detail.startTime}}</pre>
+        <button [clrLoading]="deleteBtnState" class="btn btn-danger" (click)="openDeleteModal(detail)">Delete</button>
+      </clr-dg-detail-body>
+    </clr-dg-detail>
+
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="pageSize" [clrDgTotalItems]="totalCount">
+        <clr-dg-page-size #clrDgPageSize [clrPageSizeOptions]="[10,25,50,100]">
+          <label [for]="clrDgPageSize.pageSizeOptionsId">Time Entries per page</label>
+
+        </clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{pagination.totalItems}} Time Entries
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+
+<clr-modal name="newTimeEntryModal" [(clrModalOpen)]="openNewModal">
+  <h3 class="modal-title">New Entry</h3>
+  <div class="modal-body">
+    <app-new-time-entry (timeEntrySubmitted)="timeEntrySubmitted($event)"></app-new-time-entry>
   </div>
-</div>-->
-<!--<ul class="timeEntries">
-  <li *ngFor="let timeEntry of timeEntries">
-    <button type="button" (click)="onSelect(timeEntry)">
-      <span class="TITLE" name="currentEntry">{{timeEntry.title}}</span>
-    </button>
-  </li>
-</ul>-->
+  <div class="modal-footer">
+    <!--<button type="button" class="btn btn-outline" (click)="">Cancel</button>
+    <button [clrLoading]="deleteBtnState" type="button" class="btn btn-primary" (click)="">Submit</button>-->
+  </div>
+</clr-modal>
 
-<!--<button (click)="getPreviousPage()" [disabled]="pageNumber == 1">Get previous page</button>
-<button (click)="getNextPage()" [disabled]="!canGetNextPage()">Get next page</button>
-<button (click)="refresh(pagination)">Refresh</button>-->
-
-<clr-datagrid  (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading">
-  <clr-dg-column [clrDgField]="'id'">Id</clr-dg-column>
-  <clr-dg-column [clrDgField]="'description'">Description</clr-dg-column>
-  <clr-dg-column [clrDgField]="'startTime'">Time</clr-dg-column>
-  <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
-
-  <clr-dg-row *ngFor="let timeEntry of timeEntries" [clrDgItem]="timeEntry">
-    <clr-dg-cell>{{timeEntry.id}}</clr-dg-cell>
-    <clr-dg-cell>{{timeEntry.description}}</clr-dg-cell>
-    <clr-dg-cell>{{timeEntry.startTime | amLocal | amDateFormat:'DD-MM-YYYY hh:mm'}}</clr-dg-cell>
-    <clr-dg-cell>{{timeEntry.title}}</clr-dg-cell>
-  </clr-dg-row>
-
-  <clr-dg-detail *clrIfDetail="let detail">
-    <clr-dg-detail-header>{{detail.title}}</clr-dg-detail-header>
-    <clr-dg-detail-body>
-      <pre>{{detail.title}}</pre>
-      <pre>{{detail.description}}</pre>
-      <pre>{{detail.startTime}}</pre>
-      <button class="btn btn-danger" (click)="deleteEntry(detail)">Delete</button>
-    </clr-dg-detail-body>
-  </clr-dg-detail>
-
-  <clr-dg-footer><clr-dg-pagination #pagination [clrDgPageSize]="pageSize" [clrDgTotalItems]="totalCount">
-  <clr-dg-page-size #clrDgPageSize [clrPageSizeOptions]="[10,25,50,100]">
-    <label [for]="clrDgPageSize.pageSizeOptionsId">Time Entries per page</label>
-
-  </clr-dg-page-size>
-  {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-  of {{pagination.totalItems}} Time Entries
-</clr-dg-pagination>
-  </clr-dg-footer>
-</clr-datagrid>
-<div> {{pageSize}}</div>
+<clr-modal name="deleteModal" [(clrModalOpen)]="openModal">
+  <h3 class="modal-title">Delete Entry</h3>
+  <div class="modal-body">
+    <p>
+      This action is irreversible. Press 'cancel' or 'close' or outside
+      this pop-up to cancel the operation.
+      Press 'Delete' to affirm Entry Removal.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="closeDeleteModal()">Cancel</button>
+    <button [clrLoading]="deleteBtnState" type="button" class="btn btn-danger" (click)="deleteSelectedTimeEntry()">Delete</button>
+  </div>
+</clr-modal>

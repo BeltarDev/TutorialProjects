@@ -1,6 +1,6 @@
 import { DatePipe, formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { concat } from 'rxjs';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import * as moment from 'moment';
   templateUrl: './new-time-entry.component.html',
   styleUrls: ['./new-time-entry.component.css']
 })
+
 export class NewTimeEntryComponent implements OnInit {
   model: NewTimeEntryModel = {
     title: undefined,
@@ -23,16 +24,18 @@ export class NewTimeEntryComponent implements OnInit {
     startTimeMinutes: 0
   };
 
+    @Output() timeEntrySubmitted = new EventEmitter<TimeEntry>();
+
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
   }
 
   async submit() {
-    const momentDate = moment(this.model.startDate, 'YYYY-MM-DD');
+    const momentDate = moment(this.model.startDate, 'DD-MM-YYYY');
     momentDate.add(this.model.startTimeHours, 'hours');
     momentDate.add(this.model.startTimeMinutes, 'minutes');
 
     try {
-      await this.http.post<TimeEntry>(this.baseUrl + 'api/Time',
+      const newTimeEntryFromApi = await this.http.post<TimeEntry>(this.baseUrl + 'api/Time',
         {
           startTime: momentDate,
           title: this.model.title,
@@ -47,6 +50,8 @@ export class NewTimeEntryComponent implements OnInit {
         startTimeHours: 0,
         startTimeMinutes: 0
       };
+
+      this.timeEntrySubmitted.emit(newTimeEntryFromApi);
     } catch (error) {
       console.log('API Error: ', error);
     }
@@ -56,19 +61,19 @@ export class NewTimeEntryComponent implements OnInit {
   }
 
   useCurrentTime() {
-    this.model.startDate = moment().startOf('day').format('YYYY-MM-DD');
+    this.model.startDate = moment().startOf('day').format('DD-MM-YYYY');
     this.model.startTimeHours = moment().hour();
     this.model.startTimeMinutes = moment().minute();
   }
 
   useStartTime() {
-    this.model.startDate = moment().startOf('day').format('YYYY-MM-DD');
+    this.model.startDate = moment().startOf('day').format('DD-MM-YYYY');
     this.model.startTimeHours = 8;
     this.model.startTimeMinutes = 30;
   }
 
   useStopTime() {
-    this.model.startDate = moment().startOf('day').format('YYYY-MM-DD');
+    this.model.startDate = moment().startOf('day').format('DD-MM-YYYY');
     this.model.startTimeHours = 17;
     this.model.startTimeMinutes = 0;
   }
