@@ -56,9 +56,7 @@ public class TimeController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError,
                 "Error deleting data");
         }
-
     }
-
 
     [HttpGet]
     public async Task<IActionResult> Get(int pageSize, int pageNumber, string? orderBy)

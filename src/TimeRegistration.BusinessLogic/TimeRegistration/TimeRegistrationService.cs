@@ -20,21 +20,14 @@ namespace TimeRegistration.BusinessLogic.TimeRegistration
         {
             var newTimeEntry = new TimeEntry
             {
-                StartTime = model.StartTime, Description = model.Description, Title = model.Title
+                StartTime = model.StartTime,
+                Description = model.Description,
+                Title = model.Title
             };
 
             await _dbContext.AddAsync(newTimeEntry);
             await _dbContext.SaveChangesAsync();
             return newTimeEntry;
-        }
-
-        public async Task<TimeEntry> Create1(string title, string description, DateTime startTime)
-        {
-            var timeEntry = new TimeEntry { StartTime = startTime, Description = description, Title = title };
-
-            await _dbContext.AddAsync(timeEntry);
-            await _dbContext.SaveChangesAsync();
-            return timeEntry;
         }
 
         public async Task<TimeEntry> GetById(int id)
