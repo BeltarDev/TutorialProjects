@@ -1,0 +1,25 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-items: center;
+}
+
+.child{
+    display: inline-block;
+    width: max-content;
+    height: max-content;
+    margin: 2px;
+    text-align: center;
+}
+
+mat-form-field{
+    width: 240px;
+}
+
+
+button{
+    display: inline-block;
+    background-color: aqua;
+}

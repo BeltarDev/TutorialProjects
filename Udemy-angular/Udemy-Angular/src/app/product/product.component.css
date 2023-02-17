@@ -1,0 +1,9 @@
+.product {
+    border: solid;
+    border-color: rgb(183, 111, 183);
+    background-color: rgb(53, 51, 126);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font: Verdana;
+    color: rgba(210, 210, 18, 0.929);
+    margin: 3px;
+}

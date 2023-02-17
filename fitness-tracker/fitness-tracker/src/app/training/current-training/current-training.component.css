@@ -1,0 +1,10 @@
+
+.current-training{
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+}
+
+button{
+    width:auto;
+}

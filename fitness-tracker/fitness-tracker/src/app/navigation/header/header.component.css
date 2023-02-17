@@ -1,0 +1,17 @@
+a{
+    text-decoration: none;
+    color: white;
+    padding: 5px;
+    
+}
+
+a:hover,
+a:active{
+    color: rgba(109, 142, 195, 0.757);
+}
+
+div.links{
+    margin-left: auto; 
+    margin-right: 0;
+    
+}

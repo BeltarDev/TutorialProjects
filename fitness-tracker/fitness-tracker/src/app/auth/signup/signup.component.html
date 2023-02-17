@@ -1,0 +1,44 @@
+<form #regform="ngForm" (ngSubmit)="onSubmit(regform)">
+    <div class="container">
+        <div class="child c1">
+            <mat-form-field>
+                <input type="email" matInput ngModel placeholder="Your E-mail" name="email" email required
+                    #emailInput="ngModel">
+                <mat-error *ngIf="emailInput.hasError('required')">E-mail is required.</mat-error>
+                <mat-error *ngIf="!emailInput.hasError('required')">Only valid Email adress.</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="child c2">
+            <mat-form-field hintLabel="Minimum 6 characters.">
+                <input type="password" matInput ngModel placeholder="Your password" name="password" required
+                    minlength="6" #pwInput="ngModel">
+                <mat-hint align="end">{{pwInput.value?.length}} / 6</mat-hint>
+            </mat-form-field>
+        </div>
+        <div class="child c3">
+            <mat-form-field>
+                <input matInput 
+                [matDatepicker]="bdpicker" 
+                placeholder="Your birthday"
+                [max]="maxDate"
+                ngModel
+                name="birthday"
+                required>
+                <mat-datepicker-toggle matSuffix [for]="bdpicker" ></mat-datepicker-toggle>
+                <mat-datepicker #bdpicker></mat-datepicker>
+            </mat-form-field>
+ 
+        </div>
+        <div class="child c4">
+            <button style="width: 100px;" type="submit" 
+            mat-raised-button color="primary"
+            [disabled]="regform.invalid">submit</button>
+            <mat-checkbox matInput
+            ngModel name="agree"
+            required
+            color="primary"
+            >Agree to T&C.</mat-checkbox>
+
+        </div>
+    </div>
+</form>
