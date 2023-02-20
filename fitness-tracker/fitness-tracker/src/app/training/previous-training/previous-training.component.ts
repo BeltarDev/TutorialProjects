@@ -33,7 +33,7 @@ export class PreviousTrainingComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  // public doFilter = (value: string) => {
-  //   this.dataSource.filter = value.trim().toLocaleLowerCase();
-  // }
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
 }

@@ -10,7 +10,7 @@ export class ExerciseService {
         { id: 'touch-toes', name: 'Touch Toes', duration: 180, calories: 15 },
         { id: 'side-lunges', name: 'Side Lunges', duration: 120, calories: 18 },
         { id: 'burpees', name: 'Burpees', duration: 60, calories: 8 },
-        { id: 'bench-press', name: 'Bench Press', duration: 600, calories: 20 }
+        { id: 'bench-press', name: 'Bench Press', duration: 600, calories: 120 }
     ];
 
     private runningExercise: Exercise | undefined = undefined;
