@@ -5,12 +5,12 @@
             </mat-icon>
         </button>
     </div>
-    <div><a routerLink="/">LOGO</a></div>
+    <div><a routerLink="/">Fitness</a></div>
     <div id="flexthing"></div>
     <div class="links">
         <a routerLink="/signup" *ngIf="!isAuth">Signup</a>
         <a routerLink="/login" *ngIf="!isAuth">Login</a>
         <a routerLink="/training" *ngIf="isAuth">Training</a>
-        <a *ngIf="isAuth" style="cursor: pointer (click)=onLogout()">Logout </a>
+        <a *ngIf="isAuth" style="cursor: pointer" (click)="onLogout()">Logout </a>
     </div>
 </mat-toolbar>

@@ -1,16 +1,17 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource} from '@angular/material/table';
 import { Exercise } from '../exercise.model';
 import { ExerciseService } from '../exercise.service';
 import { MatSort } from '@angular/material/sort'
+import { MatPaginator } from '@angular/material/paginator'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-previous-training',
   templateUrl: './previous-training.component.html',
   styleUrls: ['./previous-training.component.css']
 })
-export class PreviousTrainingComponent implements OnInit, AfterViewInit {
-
+export class PreviousTrainingComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns = [
     'date',
     'name',
@@ -19,21 +20,33 @@ export class PreviousTrainingComponent implements OnInit, AfterViewInit {
     'state'];
 
   dataSource = new MatTableDataSource<Exercise>();
+  private exerciseChangedSub$: Subscription;
 
-  
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   constructor(private exerciseService: ExerciseService) {
   }
 
   ngOnInit() {
-    this.dataSource.data = this.exerciseService.getPreviousExercises();
-  }
-  @ViewChild(MatSort) sort: MatSort = new MatSort;
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+    this.exerciseChangedSub$ = this.exerciseService.finishedExercisesChanged$.subscribe(
+      (exercises: Exercise[]) => {
+      this.dataSource.data = exercises;
+    })
+    this.exerciseService.fetchFinishedExercises();
   }
 
-  public doFilter = (value: string) => {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  ngOnDestroy() {
+    this.exerciseChangedSub$.unsubscribe();
+  }
+
+  
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  doFilter(filterValue:string){
+    this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
   }
 }

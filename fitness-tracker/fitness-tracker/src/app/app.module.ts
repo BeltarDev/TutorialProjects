@@ -20,7 +20,10 @@ import { AuthService } from './auth/auth.service';
 import { ExerciseService } from './training/exercise.service';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { environment } from 'src/environments/environment.development';
+import { UIService } from './shared/ui.service';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +38,7 @@ import { environment } from 'src/environments/environment.development';
     HeaderComponent,
     SidenavListComponent,
     StopTrainingComponent,
-    
+        
   ],
   imports: [
     AppRoutingModule,
@@ -45,9 +48,10 @@ import { environment } from 'src/environments/environment.development';
     MaterialModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireAuthModule
   ],
-  providers: [AuthService, ExerciseService],
+  providers: [AuthService, ExerciseService, UIService],
   bootstrap: [AppComponent],
   entryComponents: [StopTrainingComponent]
 })
