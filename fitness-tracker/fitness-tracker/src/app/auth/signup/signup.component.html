@@ -33,7 +33,7 @@
             <button *ngIf="!isLoading" style="width: 100px;" type="submit" 
             mat-raised-button color="primary"
             [disabled]="regform.invalid">submit</button>
-            <mat-checkbox matInput
+            <mat-checkbox *ngIf="!isLoading" matInput
             ngModel name="agree"
             required
             color="primary"

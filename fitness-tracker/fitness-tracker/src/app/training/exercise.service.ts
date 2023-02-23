@@ -4,21 +4,25 @@ import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { Subscription } from "rxjs";
+import { UIService } from "../shared/ui.service";
 
 @Injectable()
 export class ExerciseService {
     exerciseChanged$ = new Subject<Exercise | null>();
     exercisesChanged$ = new Subject<Exercise[]>();
     finishedExercisesChanged$ = new Subject<Exercise[]>();
-    
+
     private availableExercises: Exercise[] = [];
     private runningExercise: Exercise | undefined = undefined;
     private exercises: Exercise[] = [];
     private fbSubs: Subscription[] = [];
 
-    constructor(private firestore: AngularFirestore) { }
+    constructor(
+        private firestore: AngularFirestore,
+        private uiService: UIService,) { }
 
     fetchAvailableExercises() {
+        this.uiService.loadingStateChanged.next(true);
         this.fbSubs.push(this.firestore.collection<Exercise>('availableExercises')
             .snapshotChanges()
             .pipe(map(docArray => {
@@ -29,13 +33,23 @@ export class ExerciseService {
                         calories: data.calories,
                         duration: data.duration,
                         name: data.name
-                    };
+                    } as Exercise;
                 });
             }))
-            .subscribe((exercises: Exercise[]) => {
-                
-                this.availableExercises = exercises;
-                this.exercisesChanged$.next([...this.availableExercises]);
+            .subscribe({
+                next: (ex) => {
+                    this.availableExercises = ex;
+                    this.exercisesChanged$.next([...this.availableExercises]);
+                    this.uiService.loadingStateChanged.next(false);
+                },
+                error: (error) => {
+                    this.uiService.showSnackbar(
+                        'Fetching Exercises failed, please try again',
+                        null,
+                        5000,
+                        'center',
+                        'top')
+                }
             }));
     }
 
@@ -44,7 +58,7 @@ export class ExerciseService {
     }
 
     fetchFinishedExercises() {
-       this.fbSubs.push(this.firestore.collection('finishedExercises')
+        this.fbSubs.push(this.firestore.collection('finishedExercises')
             .valueChanges()
             .subscribe((exercises: Exercise[]) => {
                 this.finishedExercisesChanged$.next(exercises);
@@ -89,7 +103,7 @@ export class ExerciseService {
     cancelSubscriptions() {
         this.fbSubs.forEach(sub => sub.unsubscribe());
     }
-    private addDataToDatabase(exercise: Exercise){
+    private addDataToDatabase(exercise: Exercise) {
         this.firestore.collection('finishedExercises').add(exercise);
     }
 }

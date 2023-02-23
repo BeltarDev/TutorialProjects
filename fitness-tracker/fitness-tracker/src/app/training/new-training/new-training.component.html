@@ -1,8 +1,8 @@
 <form (ngSubmit)="onStartTraining(form)" #form="ngForm">
-    <mat-card class="col col-sm-12">
+    <mat-card *ngIf="!isLoading" class="col col-sm-12">
         <mat-card-title>Start a workout!</mat-card-title>
         <mat-card-content>
-            <mat-form-field>
+            <mat-form-field >
                 <mat-select placeholder="Select Type Training" ngModel name="exercise" required>
                     <mat-option *ngFor="let exercise of exercises " [value]="exercise.id">
                         {{exercise.name}}
@@ -12,9 +12,11 @@
         </mat-card-content>
         <mat-card-footer>
             <mat-card-actions>
-                <button mat-button type="submit" [disabled]="form.invalid">Start
+                <button *ngIf="!isLoading"  mat-button type="submit" [disabled]="form.invalid">Start
                 </button>
+                
             </mat-card-actions>
         </mat-card-footer>
     </mat-card>
+    <mat-spinner *ngIf="isLoading" ></mat-spinner>
 </form>
