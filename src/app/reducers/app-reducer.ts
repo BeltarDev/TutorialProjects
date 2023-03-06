@@ -2,10 +2,7 @@ import { isDevMode } from '@angular/core';
 import { routerReducer } from '@ngrx/router-store';
 import {
   ActionReducer,
-  ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
-  MetaReducer
+  ActionReducerMap, MetaReducer
 } from '@ngrx/store';
 
 export interface AppState {

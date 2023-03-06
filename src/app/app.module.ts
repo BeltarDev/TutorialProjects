@@ -22,6 +22,7 @@ import { metaReducers, reducers } from './reducers/app-reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { RouterState } from '@ngrx/router-store/src';
+import { CoursesResover } from './courses/courses.resolver';
 
 
 const routes: Routes = [
@@ -40,7 +41,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -69,6 +71,7 @@ const routes: Routes = [
       stateKey: 'router',
       routerState: RouterState.Minimal
     }),
+    
   ],
   bootstrap: [AppComponent]
 })

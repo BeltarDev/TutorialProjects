@@ -6,7 +6,7 @@ import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route
 import { AppState } from './reducers/app-reducer';
 import { isLoggedIn, isLoggedOut } from './auth/auth.selectors';
 import { login, logout } from './auth/auth.actions';
-import { AuthActions } from './auth/action-types';
+import { AuthActions } from './action-types';
 
 @Component({
   selector: 'app-root',
