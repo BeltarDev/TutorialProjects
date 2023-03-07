@@ -22,7 +22,8 @@ import { metaReducers, reducers } from './reducers/app-reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { RouterState } from '@ngrx/router-store/src';
-import { CoursesResover } from './courses/courses.resolver';
+import { CoursesResolver } from './courses/courses.resolver';
+import { EntityDataModule } from '@ngrx/data';
 
 
 const routes: Routes = [
@@ -56,9 +57,8 @@ const routes: Routes = [
     MatListModule,
     MatToolbarModule,
     AuthModule.forRoot(),
-    EntityDataModule.forRoot({}),
-        StoreModule.forRoot(reducers, {
-      metaReducers,
+    EntityDataModule,
+    StoreModule.forRoot(reducers, {
 
       runtimeChecks: {
         strictStateImmutability: true,

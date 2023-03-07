@@ -8,7 +8,7 @@ import { loadAllCourses } from "./course.actions";
 import { areCoursesLoaded } from "./courses.selectors";
 
 @Injectable()
-export class CoursesResover implements Resolve<any>{
+export class CoursesResolver implements Resolve<boolean>{
 
     loading = false
     constructor(private store: Store<AppState>) {
