@@ -56,8 +56,10 @@ const routes: Routes = [
     MatListModule,
     MatToolbarModule,
     AuthModule.forRoot(),
-    StoreModule.forRoot(reducers, {
+    EntityDataModule.forRoot({}),
+        StoreModule.forRoot(reducers, {
       metaReducers,
+
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,
