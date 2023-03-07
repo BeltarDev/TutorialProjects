@@ -13,9 +13,18 @@ export class CoursesEffects {
         this.actions$.pipe(
             ofType(CourseActions.loadAllCourses),
             concatMap(action => this.coursesHttpService.findAllCourses()),
-            tap(() => console.log("All courses Loaded mfer")),
             map(courses => allCoursesLoaded({courses}))
         )
+    );
+
+    saveCourse$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(CourseActions.courseUpdated),
+            concatMap(action => this.coursesHttpService.saveCourse(
+                action.update.id, action.update.changes
+            ))
+        ),
+        { dispatch: false }
     );
     constructor(private actions$: Actions,
         private coursesHttpService: CoursesHttpService,) {
